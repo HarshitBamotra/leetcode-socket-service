@@ -14,7 +14,7 @@
 //   console.log("Server started on port 3003");
 // });
 
-
+require("dotenv").config();
 const express = require("express"); // Import express
 const { createServer } = require("http"); // Import http
 const { Server } = require("socket.io"); // Import socket.io
@@ -25,7 +25,10 @@ const app = express(); // Create express app
 app.use(bodyParser.json());
 const httpServer = createServer(app); // Create http server using express app
 
-const redisCache = new Redis(); // Create Redis client
+const redisCache = new Redis({
+    port: process.env.REDIS_PORT,
+    host: process.env.REDIS_HOST
+}); // Create Redis client
 
 const io = new Server(httpServer, { 
     cors: {
